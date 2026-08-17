@@ -32,20 +32,7 @@ quantities in every step.
 
 ## Demo
 
-<!--
-TODO: replace this with a real demo GIF once the app is deployed:
-1. Run `uv run streamlit run app.py` and open it in a browser.
-2. Record a short screen capture of the golden path (upload a fridge photo →
-   click Generate meals → results render) — e.g. macOS Screenshot app
-   (Cmd+Shift+5) or QuickTime for the recording.
-3. Convert to an optimized GIF, e.g.:
-     ffmpeg -i demo.mov -vf "fps=10,scale=800:-1" -loop 0 demo.gif
-   or use https://gifski.app for a smaller, higher-quality result.
-4. Save it as docs/demo.gif and replace this comment with:
-     ![Demo](docs/demo.gif)
--->
-
-*(Demo GIF coming soon — see the TODO above for how to record one.)*
+![Demo](docs/demo.gif)
 
 ## Local setup
 
