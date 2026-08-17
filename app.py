@@ -1,3 +1,4 @@
+import logging
 import os
 
 import streamlit as st
@@ -7,6 +8,8 @@ from PIL import Image
 from history import list_history, save_generation, toggle_favorite
 from meal_engine import STAPLE_OPTIONS, generate_meals
 from shopping_list import build_shopping_list
+
+logger = logging.getLogger(__name__)
 
 
 def render_meal_option(badge_fn, label, meal):
@@ -135,8 +138,9 @@ if generate_clicked:
                     st.caption("Staples these recipes need that you don't have, plus staples worth keeping stocked.")
                     st.code("\n".join(shopping_list), language=None)
 
-        except Exception as e:
-            st.error(f"Error processing image: {e}")
+        except Exception:
+            logger.exception("Error generating meals")
+            st.error("Something went wrong while generating your meals. Please try again in a moment.")
 
 history_entries = list_history()
 if history_entries:

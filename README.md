@@ -76,21 +76,22 @@ fridge or pantry.
 uv run pytest -v
 ```
 
-## Deployment (not yet done)
+## Deployment
 
 1. Push this repo to GitHub under your personal account.
 2. Connect the repo on [Streamlit Community Cloud](https://share.streamlit.io).
-3. Set `LITELLM_BASE_URL`, `LITELLM_API_KEY`, and `MODEL_NAME` under
-   **Advanced Settings > Secrets**.
+3. Set `LITELLM_BASE_URL`, `LITELLM_API_KEY`, and `MODEL_NAME` (and
+   optionally `MAX_GENERATIONS_PER_SESSION`) under **Advanced Settings >
+   Secrets**, in TOML format:
+   ```toml
+   LITELLM_BASE_URL = "https://your-proxy-url"
+   LITELLM_API_KEY = "your-key"
+   MODEL_NAME = "your-model-alias"
+   ```
 4. Deploy to get a public demo URL.
 
 ## Known follow-ups
 
-- Before deploying publicly, replace `st.error(f"Error processing image: {e}")`
-  with a generic user-facing message and log the real exception server-side
-  instead — some exceptions (e.g. connection/timeout errors) can embed the
-  internal LiteLLM proxy hostname, which shouldn't be shown to end users on
-  a public demo.
 - **History/favorites (`history.db`) is local-only.** It's a SQLite file on
   disk, gitignored, and works great when you run this yourself. Streamlit
   Community Cloud's filesystem is ephemeral — the moment the app restarts or
