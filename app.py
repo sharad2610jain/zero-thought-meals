@@ -31,6 +31,10 @@ if not os.getenv("LITELLM_BASE_URL") or not os.getenv("LITELLM_API_KEY"):
     st.error("Missing LITELLM_BASE_URL or LITELLM_API_KEY environment variable.")
     st.stop()
 
+MAX_GENERATIONS_PER_SESSION = int(os.getenv("MAX_GENERATIONS_PER_SESSION", "5"))
+if "generation_count" not in st.session_state:
+    st.session_state.generation_count = 0
+
 col_camera, col_upload = st.columns(2)
 with col_camera:
     camera_file = st.camera_input("Take a picture of open fridge or pantry")
@@ -71,7 +75,18 @@ unavailable_staples = [s for s, checked in staple_checked.items() if not checked
 
 has_images = img_file or additional_files
 
-generate_clicked = st.button("🍳 Generate meals", disabled=not has_images)
+remaining_generations = MAX_GENERATIONS_PER_SESSION - st.session_state.generation_count
+limit_reached = remaining_generations <= 0
+
+generate_clicked = st.button("🍳 Generate meals", disabled=not has_images or limit_reached)
+
+if limit_reached:
+    st.info(
+        f"You've used all {MAX_GENERATIONS_PER_SESSION} generations for this session. "
+        "Refresh the page to reset — this limit protects the shared API budget."
+    )
+elif has_images:
+    st.caption(f"{remaining_generations} generation(s) left this session.")
 
 if generate_clicked:
     with st.spinner("Analyzing ingredients and generating zero-thought meals..."):
@@ -90,6 +105,7 @@ if generate_clicked:
                 vegetarian=vegetarian,
                 allergies=allergies,
             )
+            st.session_state.generation_count += 1
 
             if not data.food_detected:
                 st.warning("🤔 No food detected — try pointing the camera at your fridge or pantry shelf.")

@@ -26,6 +26,9 @@ quantities in every step.
   with what's worth restocking
 - 📜 Local history of past generations with a favorite toggle (see the
   persistence caveat below)
+- 🔒 A per-session generation cap (default 5, override with
+  `MAX_GENERATIONS_PER_SESSION`) so a public demo link can't run up an
+  unbounded API bill
 
 ## Demo
 
@@ -83,12 +86,6 @@ uv run pytest -v
 
 ## Known follow-ups
 
-- No per-session usage cap yet — add one before sharing the public link
-  widely, since every generation call spends against the LiteLLM project
-  token.
-- Pin `requirements.txt` to specific versions before the public deploy —
-  it's currently unpinned bare package names, which risks the demo breaking
-  on an unrelated transitive release with nobody watching.
 - Before deploying publicly, replace `st.error(f"Error processing image: {e}")`
   with a generic user-facing message and log the real exception server-side
   instead — some exceptions (e.g. connection/timeout errors) can embed the
