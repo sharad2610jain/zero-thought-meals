@@ -1,0 +1,7 @@
+streamlit
+openai
+instructor
+pydantic
+pillow
+python-dotenv
+pytest
